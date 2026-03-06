@@ -61,6 +61,5 @@ The final model achieved a near-perfect classification on the validation set:
 * `TRAIN.csv` & `TEST.csv`: Dataset files provided by IEEE SB, GEHU.
 
 ---
-**Developed by:** Mayank Bijlwan  
 **Event:** ML CHALLENGE by IEEE SB, GEHU  
 *Note: This model is built for educational and competition purposes.*
