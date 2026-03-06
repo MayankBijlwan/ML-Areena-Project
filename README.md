@@ -1,59 +1,42 @@
-# 🛡️ Embedded System Fault Detection 
-### ML Challenge | IEEE SB, GEHU (Online Qualifiers)
+# IEEE SB GEHU: ML Challenge - Binary Fault Detection
 
 ## 📌 Project Overview
-This repository contains a high-performance Machine Learning solution designed to classify the operational status of hardware devices. Using 47 distinct quantitative sensor measurements ($F01$–$F47$), the model identifies whether a device is functioning under **Normal (Class 0)** conditions or exhibiting a **Faulty (Class 1)** state.
+This project was developed for the online qualifiers of the **ML Challenge by IEEE SB, GEHU**. The goal is to perform binary classification on device monitoring data to distinguish between normal operating conditions and faulty states.
 
-The project addresses the critical need for automated anomaly detection in embedded monitoring systems to prevent hardware failure and optimize maintenance cycles.
-
-
-
-## 📊 Dataset Description
-The dataset consists of measurements captured by an embedded detector during device activity cycles.
-* **Input Features:** 47 Numerical features representing internal states and environmental interactions.
-* **Target Variable:** * `0`: Normal
-    * `1`: Faulty
-* **Data Split:** * `TRAIN.csv`: Used for training and cross-validation.
-    * `TEST.csv`: Used for generating final blind predictions.
-
-## 🛠️ Technical Pipeline
-
-### 1. Exploratory Data Analysis (EDA)
-* **Feature Profiling:** Conducted statistical analysis on features $F01$ through $F47$ to identify variance and distribution patterns.
-* **Correlation Analysis:** Identified key sensor metrics that show high sensitivity to device faults.
-* **Data Integrity:** Confirmed zero missing values across the 43,776 training samples.
-
-### 2. Preprocessing & Engineering
-* **Feature Scaling:** Implemented `StandardScaler` to bring all 47 features onto a uniform scale. This is crucial for models like Logistic Regression to ensure features with larger magnitudes don't dominate the objective function.
-* **Stratification:** Used stratified sampling to maintain the class ratio across training and validation sets, ensuring the model is equally robust at detecting faults as it is at identifying normal behavior.
-
-### 3. Model Architecture
-We utilized an optimized **Logistic Regression** framework, fine-tuned through **GridSearchCV**.
-* **Hyperparameter Tuning:** Optimized the regularization strength (`C`) and solvers (`lbfgs`) to prevent overfitting.
-* **Validation:** Employed 5-Fold Cross-Validation to ensure the model generalizes well to unseen sensor data.
-
-
-
-## 📈 Performance Metrics
-The model was evaluated primarily on its ability to minimize "False Negatives" (missing a fault), while maintaining high overall accuracy.
-* **Accuracy:** ~74%
-* **Cross-Validation F1-Score:** ~0.654
-* **Robustness:** The model demonstrated consistent performance across different data folds, indicating high reliability for real-world embedded deployment.
-
-## 🚀 How to Run
-1.  **Environment Setup:**
-    ```bash
-    pip install pandas numpy scikit-learn matplotlib seaborn
-    ```
-2.  **Training:** Run the `IEEEML.ipynb` notebook to preprocess data and train the model.
-3.  **Inference:** The model automatically processes `TEST.csv` and exports predictions.
-4.  **Submission:** The final output is saved as `FINAL.csv` with the required `ID` and `CLASS` columns.
-
-## 📁 Repository Structure
-* `IEEEML.ipynb`: Full end-to-end data science pipeline.
-* `FINAL.csv`: Final prediction output for evaluation.
-* `README.md`: Project documentation.
+### Problem Statement
+Given 47 numerical features ($F01$–$F47$) captured by an embedded detection system, the task is to predict the `Class` of the device:
+* **0**: Normal Operating Condition
+* **1**: Faulty Condition
 
 ---
-**Developed for the ML Challenge by IEEE SB, GEHU.**
-*Note: This project is for educational purposes.*
+
+## 📊 Dataset Description
+The dataset consists of quantitative measurements reflecting the internal state and environmental interactions of a device.
+* **Training Data:** 43,776 rows with 47 features and 1 target variable (`Class`).
+* **Test Data:** 10,944 rows with 47 features and an `ID` column for submission tracking.
+
+---
+
+## 🛠️ Technical Workflow
+
+### 1. Exploratory Data Analysis (EDA)
+* **Handling Imbalance:** Identified the class distribution to ensure the model doesn't overfit the majority class.
+* **Feature Analysis:** Visualized feature correlations and distributions (specifically $F01$, $F28$, and $F33$) to understand non-linear relationships.
+
+### 2. Data Preprocessing
+* **Feature Scaling:** Applied `StandardScaler` to normalize the 47 numerical features, ensuring that features with larger magnitudes do not dominate the model training.
+* **Data Splitting:** Used an 80-20 train-test split with `StratifiedKFold` to maintain class ratios during cross-validation.
+
+### 3. Model Selection
+I evaluated multiple models, including **Logistic Regression** and **Balanced Random Forest**, but selected **XGBoost** for the final submission.
+* **Algorithm:** XGBoost Classifier.
+* **Optimization:** Handled class imbalance using `scale_pos_weight`.
+* **Performance:** Achieved an accuracy of **~98.4%** and an F1-score of **0.98** on the validation set.
+
+---
+
+## 🚀 How to Run
+1. Clone the repository.
+2. Ensure you have the required libraries installed:
+   ```bash
+   pip install numpy pandas matplotlib seaborn scikit-learn xgboost
